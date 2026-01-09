@@ -192,7 +192,7 @@ lvim.plugins = {
   --   end
   -- },
   {
-    'phaazon/hop.nvim',
+    'Yangeyu/hop.nvim',
     event = "BufRead",
     config = function()
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
