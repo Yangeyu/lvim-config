@@ -1,7 +1,7 @@
 -- Discord: https://discord.com/invite/Xb9B4Ny
-local opts    = { noremap = true, silent = true }
-local keymap  = vim.api.nvim_set_keymap
-local autocmd = vim.api.nvim_create_autocmd
+local opts       = { noremap = true, silent = true }
+local keymap     = vim.api.nvim_set_keymap
+local autocmd    = vim.api.nvim_create_autocmd
 
 lvim.colorscheme = "catppuccin-mocha"
 keymap("v", "<space>a=", ":EasyAlign *=<CR>", opts)
@@ -86,15 +86,12 @@ require("lspconfig")['unocss'].setup({
   filetypes = { 'vue' },
   root_dir = util.root_pattern("uno.config.ts")
 })
-require("lspconfig")['eslint'].setup({
-  root_dir = util.root_pattern("eslint.config.mts", "eslint.config.mjs")
-})
 require("lspconfig")["lua_ls"].setup({})
 require("lspconfig")["pylsp"].setup({})
 require("lspconfig")["tailwindcss"].setup({})
--- require("lspconfig")["biome"].setup({
---   root_dir = util.root_pattern("biome.json")
--- })
+require("lspconfig")["eslint"].setup({
+  root_dir = util.root_pattern("eslint.config.mts", "eslint.config.js", "eslint.config.cjs")
+})
 
 require("lspconfig")['volar'].setup({
   init_options = {
@@ -253,6 +250,7 @@ lvim.plugins = {
       require("telescope").load_extension("live_grep_args")
       -- keymap("n", "<space>sa", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", opts)
       keymap("n", "<space>sa", ":Telescope live_grep_args theme=ivy<CR>", opts)
+      keymap("n", "<space>F", ":Telescope current_buffer_fuzzy_find theme=ivy<CR>", opts)
     end
   },
   {
@@ -268,6 +266,29 @@ lvim.plugins = {
         css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
       })
     end,
+  },
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup {
+        opts = {
+          window = {
+            width = 0.75, -- 百分比 or 固定宽度
+            options = {
+              number = false,
+              relativenumber = false,
+              signcolumn = "no",
+              foldcolumn = "0",
+            },
+          },
+          plugins = {
+            tmux = { enabled = false },
+          },
+        },
+      }
+
+      lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", "zen mode" }
+    end
   },
   -- 恢复工作区
   {
@@ -378,20 +399,18 @@ lvim.plugins = {
                   -- url = "https://openrouter.ai",
                   -- api_key = "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",
                   -- chat_url = "/api/v1/chat/completions"
-                  -- url = "https://dashscope.aliyuncs.com",            -- optional: default value is ollama url http://127.0.0.1:11434
-                  -- api_key = "sk-bfd20fee52af47cabef04cc13679b25e",   -- optional: if your endpoint is authenticated
-                  -- chat_url = "/compatible-mode/v1/chat/completions", -- optional: default value, override if different
-                  url = "https://open.bigmodel.cn/api/coding/paas/v4",
-                  api_key = "491b525cb15443cc9e2910489f37f9d2.vxMkoEOs1PnFacdR",
-                  chat_url = "/chat/completions"
+                  url = "https://dashscope.aliyuncs.com",            -- optional: default value is ollama url http://127.0.0.1:11434
+                  api_key = "sk-bfd20fee52af47cabef04cc13679b25e",   -- optional: if your endpoint is authenticated
+                  chat_url = "/compatible-mode/v1/chat/completions", -- optional: default value, override if different
+                  -- url = "https://open.bigmodel.cn/api/coding/paas/v4",
+                  -- api_key = "491b525cb15443cc9e2910489f37f9d2.vxMkoEOs1PnFacdR",
+                  -- chat_url = "/chat/completions"
 
                 },
                 schema = {
                   model = {
-                    -- default = "cognitivecomputations/dolphin3.0-r1-mistral-24b:free", -- define llm model to be used
-                    -- default = "qwen-coder-plus"
-                    -- default = "qwen3-max"
-                    default = "glm-4.6"
+                    default = "qwen3-max"
+                    -- default = "glm-4.7"
                   },
                   temperature = {
                     order = 2,
@@ -449,9 +468,7 @@ lvim.plugins = {
                 }
               })
             end,
-
           }
-
         },
         -- strategies = {
         -- chat = { adapter = "my_openai", },
