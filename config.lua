@@ -89,7 +89,7 @@ require("lspconfig")['unocss'].setup({
   root_dir = util.root_pattern("uno.config.ts")
 })
 require("lspconfig")["lua_ls"].setup({})
-require("lspconfig")["pylsp"].setup({})
+-- require("lspconfig")["pylsp"].setup({})
 require("lspconfig")["tailwindcss"].setup({})
 require("lspconfig")["eslint"].setup({
   root_dir = util.root_pattern("eslint.config.mts", "eslint.config.js", "eslint.config.cjs")
@@ -107,7 +107,6 @@ local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   -- { command = 'eslint',       filetypes = { "vue" } },
   { command = 'prettier',          filetypes = { "vue" } },
-  { command = 'autopep8',          filetypes = { "python" } },
   { command = 'goimports',         filetypes = { "go" } },
   { command = 'gofmt',             filetypes = { "go" } },
   { command = 'gofumpt',           filetypes = { "go" } },
