@@ -3,6 +3,11 @@ local opts       = { noremap = true, silent = true }
 local keymap     = vim.api.nvim_set_keymap
 local autocmd    = vim.api.nvim_create_autocmd
 
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+
 lvim.colorscheme = "catppuccin-mocha"
 keymap("v", "<space>a=", ":EasyAlign *=<CR>", opts)
 keymap("v", "<space>a,", ":EasyAlign */,/<CR>", opts)
