@@ -13,13 +13,15 @@ return {
   {
     "sphamba/smear-cursor.nvim",
     opts = {
-      stiffness = 0.8,                    -- 0.6      [0, 1]
-      trailing_stiffness = 0.6,           -- 0.45     [0, 1]
-      stiffness_insert_mode = 0.7,        -- 0.5      [0, 1]
+      stiffness = 0.8,                      -- 0.6      [0, 1]
+      trailing_stiffness = 0.6,             -- 0.45     [0, 1]
+      stiffness_insert_mode = 0.7,          -- 0.5      [0, 1]
       trailing_stiffness_insert_mode = 0.7, -- 0.5      [0, 1]
-      damping = 0.95,                     -- 0.85     [0, 1]
-      damping_insert_mode = 0.95,         -- 0.9      [0, 1]
-      distance_stop_animating = 0.5,      -- 0.1      > 0
+      damping = 0.95,                       -- 0.85     [0, 1]
+      damping_insert_mode = 0.95,           -- 0.9      [0, 1]
+      distance_stop_animating = 0.5,        -- 0.1      > 0
+      hide_target_hack = true,
+      never_draw_over_target = true,
     },
   },
   {
@@ -111,7 +113,7 @@ return {
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
       keymap("n", "<space>j", ":HopLineStartAC<CR>", opts)
       keymap("n", "<space>k", ":HopLineStartBC<CR>", opts)
-      keymap("n", "<space>r", ":HopChar1<CR>", opts)
+      keymap("n", "f", ":HopChar1<CR>", opts)
     end
   },
   {
@@ -163,7 +165,7 @@ return {
       require("telescope").load_extension("live_grep_args")
       -- keymap("n", "<space>sa", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", opts)
       keymap("n", "<space>sa", ":Telescope live_grep_args theme=ivy<CR>", opts)
-      keymap("n", "<space>F", ":Telescope current_buffer_fuzzy_find theme=ivy<CR>", opts)
+      keymap("n", "F", ":Telescope current_buffer_fuzzy_find theme=ivy<CR>", opts)
     end
   },
   {

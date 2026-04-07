@@ -7,6 +7,7 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+vim.opt.foldopen:remove("search") -- set foldopen-=search
 
 lvim.colorscheme = "catppuccin-mocha"
 keymap("v", "<space>a=", ":EasyAlign *=<CR>", opts)
