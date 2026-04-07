@@ -3,6 +3,17 @@ local opts       = { noremap = true, silent = true }
 local keymap     = vim.api.nvim_set_keymap
 local autocmd    = vim.api.nvim_create_autocmd
 
+-- Backfill position_encoding for plugins still using the old LSP helper signature.
+local make_position_params = vim.lsp.util.make_position_params
+
+vim.lsp.util.make_position_params = function(window, position_encoding)
+  local bufnr = window and window ~= 0 and vim.api.nvim_win_is_valid(window)
+      and vim.api.nvim_win_get_buf(window)
+    or vim.api.nvim_get_current_buf()
+  local client = vim.lsp.get_clients { bufnr = bufnr }[1]
+  return make_position_params(window, position_encoding or (client and client.offset_encoding))
+end
+
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
@@ -64,8 +75,6 @@ require("lspconfig")['denols'].setup({
   }
 })
 
-local vue_language_server_path =
-'/Users/yang/.local/share/lvim/mason/packages/vue-language-server/node_modules/@vue/language-server'
 require("lspconfig")['tsserver'].setup({
   on_attach = require("lvim.lsp").common_on_attach,
   root_dir = util.root_pattern("tsconfig.json"),
