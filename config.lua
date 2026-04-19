@@ -55,6 +55,7 @@ lvim.builtin.indentlines.options.context_patterns = {
 
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.autotag.enable = true
+lvim.builtin.illuminate.options.providers = { "lsp", "regex" }
 lvim.builtin.which_key.mappings["S"] = {
   name = "Session",
   c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
