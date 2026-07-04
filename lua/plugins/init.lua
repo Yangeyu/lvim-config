@@ -46,15 +46,8 @@ return {
             -- size = { width = 120, height = "auto", },
           },
         },
-        routes = {
-          -- show macro recording
-          {
-            view = "notify",
-            filter = { event = "msg_showmode" },
-          },
-        },
-        keymap("n", "<Esc>", ":Noice dismiss<CR>", opts)
       })
+      keymap("n", "<Esc>", ":Noice dismiss<CR>", opts)
     end
   },
   {

@@ -56,6 +56,40 @@ lvim.builtin.indentlines.options.context_patterns = {
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.illuminate.options.providers = { "lsp", "regex" }
+
+-- 状态栏宏录制指示器：录制期间常驻显示 "● REC @寄存器"，结束后自动消失
+-- config.lua 执行时默认分区尚未填充（lualine_x 为 nil），需连同默认组件一起显式设置
+local lualine_components = require("lvim.core.lualine.components")
+lvim.builtin.lualine.sections.lualine_x = {
+  {
+    function()
+      local reg = vim.fn.reg_recording()
+      if reg == "" then
+        return ""
+      end
+      return "● REC @" .. reg
+    end,
+    color = { fg = "#ff5555", gui = "bold" },
+  },
+  lualine_components.diagnostics,
+  lualine_components.lsp,
+  lualine_components.spaces,
+  lualine_components.filetype,
+}
+-- 录制开始/结束不会自动触发 statusline 重绘，需手动刷新
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  callback = function()
+    require("lualine").refresh()
+  end,
+})
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  callback = function()
+    -- RecordingLeave 触发时 reg_recording() 尚未清空，延迟刷新才能让指示器消失
+    vim.defer_fn(function()
+      require("lualine").refresh()
+    end, 50)
+  end,
+})
 lvim.builtin.which_key.mappings["S"] = {
   name = "Session",
   c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
