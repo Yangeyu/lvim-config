@@ -162,13 +162,6 @@ return {
     event = "BufWinEnter",
   },
   {
-    "windwp/nvim-spectre",
-    event = "BufRead",
-    config = function()
-      require("spectre").setup()
-    end,
-  },
-  {
     "gcmt/wildfire.vim",
     init = function()
       vim.g.wildfire_objects = { "i'", 'i"', "i)", "i]", "i}", "ip", "it", "i>", "iw", "i`" }
@@ -298,6 +291,12 @@ return {
   {
     "Yangeyu/json-expand.nvim",
     cmd = "JsonExpand",
+  },
+  -- 项目级搜索替换：可编辑面板 + ripgrep 全语法 + 实时预览
+  {
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    opts = {},
   },
   -- markdown 标题/表格/代码块等在 buffer 内直接渲染；图片由 iterm-image.nvim 负责
   -- 整行背景条一律不要（视觉统一）：code 块背景走官方开关；标题行背景的
