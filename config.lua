@@ -97,6 +97,26 @@ lvim.builtin.which_key.mappings["S"] = {
   Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
 }
 
+-- ── LSP 配置说明（2026-07-18）──────────────────────────────────────────────
+-- lvim 自动配置机制：启动时为「mason-lspconfig 支持且不在 skipped_servers」的
+-- server 生成 ftplugin 模板（~/.local/share/lunarvim/site/after/ftplugin/），
+-- 打开对应文件类型时触发 manager.setup 挂载。
+-- 事故记录：该模板目录一度「存在但为空」，而 lvim 的守卫（lsp/init.lua:103）
+-- 只检查目录是否存在，空目录导致自动配置永久哑火——此前所有 LSP 全靠本文件的
+-- 显式 setup 存活（jsonls/lua_ls/tailwindcss 因此被显式写过，修复后已删除）。
+-- 修复：删除空目录令模板重新生成；守卫缺陷已向上游提 PR：
+-- https://github.com/LunarVim/LunarVim/pull/4667
+-- 注意：改动 skipped_servers 后模板不会自动跟随——需删除上述模板目录并重启，
+-- 或 :LvimCacheReset，让模板重新生成。
+-- 下面仍显式 setup 的 server 各有原因：denols/eslint/cssmodules_ls/unocss/
+-- pylsp 在 lvim 内置 skipped_servers 里（竞争服务器 lvim 不替用户选）；
+-- tsserver/volar 需要自定义 root_dir / hybridMode（manager 对已显式配置的
+-- server 会识别并跳过，不会重复挂载）。
+
+-- pylsp 是选定的 Python LSP：pyright 不跳过会被自动配置成第二个 Python 客户端；
+-- ruff 不跳过会在首次打开 .py 时被 automatic_installation 悄悄安装。
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "ruff" })
+
 local util = require "lspconfig/util"
 require("lspconfig")['denols'].setup({
   on_attach = require("lvim.lsp").common_on_attach,
@@ -138,10 +158,7 @@ require("lspconfig")['unocss'].setup({
   filetypes = { 'vue' },
   root_dir = util.root_pattern("uno.config.ts")
 })
-require("lspconfig")["jsonls"].setup({})
-require("lspconfig")["lua_ls"].setup({})
 require("lspconfig")["pylsp"].setup({})
-require("lspconfig")["tailwindcss"].setup({})
 require("lspconfig")["eslint"].setup({
   root_dir = util.root_pattern("eslint.config.mts", "eslint.config.js", "eslint.config.cjs")
 })
