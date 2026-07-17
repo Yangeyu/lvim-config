@@ -270,6 +270,12 @@ return {
       keymap("v", "f", ":TranslateW<CR>", opts)
     end
   },
+  -- :JsonExpand — 把 JSON 里转义存放的 JSON 字符串就地展开并美化
+  -- （数据库 text 列导出的 "{\"a\":1}" 形态）。标量字符串不动，jq 失败 buffer 不动。
+  {
+    "Yangeyu/json-expand.nvim",
+    cmd = "JsonExpand",
+  },
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
