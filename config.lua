@@ -14,6 +14,9 @@ vim.lsp.util.make_position_params = function(window, position_encoding)
   return make_position_params(window, position_encoding or (client and client.offset_encoding))
 end
 
+-- 内建 ftplugin 会给 markdown 强设 4 格缩进，关掉以回落到全局的 2
+vim.g.markdown_recommended_style = 0
+
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
