@@ -3,6 +3,29 @@ local keymap = vim.api.nvim_set_keymap
 
 return {
 
+  -- 图片预览：自研插件，用 iTerm2 原生图片协议渲染，规避 Kitty 协议残留
+  -- 和 ueberzugpp 乱码问题（详见插件 README）
+  -- 本地开发时可临时换成 dir = "~/Workplace/vim-plugins/iterm-image.nvim"
+  {
+    "Yangeyu/iterm-image.nvim",
+    config = function()
+      require("iterm-image").setup()
+    end,
+  },
+
+  -- 编辑 Neovim Lua 项目时自动注入 vim 运行时类型库，
+  -- lua_ls 不再报 Undefined global `vim`，且 vim.* API 有补全
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        -- 出现 vim.uv 字样时加载 libuv 类型定义
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+
   { 'catppuccin/nvim' },
   { 'ayu-theme/ayu-vim' },
   { 'EdenEast/nightfox.nvim' },
