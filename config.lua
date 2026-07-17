@@ -138,8 +138,9 @@ require("lspconfig")['unocss'].setup({
   filetypes = { 'vue' },
   root_dir = util.root_pattern("uno.config.ts")
 })
+require("lspconfig")["jsonls"].setup({})
 require("lspconfig")["lua_ls"].setup({})
--- require("lspconfig")["pylsp"].setup({})
+require("lspconfig")["pylsp"].setup({})
 require("lspconfig")["tailwindcss"].setup({})
 require("lspconfig")["eslint"].setup({
   root_dir = util.root_pattern("eslint.config.mts", "eslint.config.js", "eslint.config.cjs")
